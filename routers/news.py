@@ -33,7 +33,7 @@ async def get_news(
     has_more = (offset + len(news_list)) < total
     return {
         "code": "200",
-        "msg": "获取新闻分类成功",
+        "msg": "获取新闻列表成功",
         "data": {
             "list":news_list,
             "total":total,
