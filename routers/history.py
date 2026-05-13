@@ -55,9 +55,11 @@ async def clear_history(
     return success_response(message=f"清空了{count}条记录")
 
 @router.delete("/delete/{history_id}")
-async def delete_history(history_id: int,
-                         user: User = Depends(get_current_user),
-                         db: AsyncSession = Depends(get_db)):
+async def delete_history(
+        history_id: int,
+        user: User = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)
+):
     """
     删除历史记录
     """
