@@ -12,7 +12,7 @@ async def get_categories(skip: int = 0, limit: int = 100, db: AsyncSession = Dep
     # 获取数据库数据  --  定义模型类  --  封装crud方法
     categories = await news.get_categories(db, skip, limit)
     return {
-        "code": "200",
+        "code": 200,
         "msg": "获取新闻分类成功",
         "data": categories
     }
@@ -32,7 +32,7 @@ async def get_news(
     # 跳过的 + 当前的数量 < 总量
     has_more = (offset + len(news_list)) < total
     return {
-        "code": "200",
+        "code": 200,
         "msg": "获取新闻列表成功",
         "data": {
             "list":news_list,

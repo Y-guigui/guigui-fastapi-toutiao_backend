@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config.db_conf import get_db
 from models.users import User
 from schemas import users
+from schemas.users import UserUpdateRequest,UserChangePasswordRequest
 from crud import users
 from schemas.users import UserAuthResponse, UserInfoResponse
 from utils.response import success_response
@@ -40,6 +41,29 @@ async def get_user_info(user: User = Depends(get_current_user)):
     return success_response(message="获取用户信息成功", data=UserInfoResponse.model_validate(user))
 
 
+# 修改用户信息：验证token----更新（用户输入put提交---请求体参数---定义Pydantic模型类）----响应结果
+# 参数：用户输入put提交---验证token的---db
+@router.put("/update")
+async def update_user_info(
+        user_data: UserUpdateRequest,
+        User: User = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)
+):
+    user = await users.update_user(db, User.username, user_data)
+    return success_response(message="修改用户信息成功", data=UserInfoResponse.model_validate(user))
+
+
+# 修改密码
+@router.put("/password")
+async def update_password(
+        password_data: UserChangePasswordRequest,
+        user: User = Depends(get_current_user),
+        db: AsyncSession = Depends(get_db)
+):
+    res = await users.update_password(db, user, password_data.old_password, password_data.new_password)
+    if not res:
+        raise HTTPException(status_code=status.HTTP_500_BAD_REQUEST, detail="修改密码失败")
+    return success_response(message="修改密码成功")
 
 
 
