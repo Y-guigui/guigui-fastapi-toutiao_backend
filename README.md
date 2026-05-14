@@ -1,4 +1,4 @@
-# Toutiao Backend - 新闻头条后端 API
+# Toutiao Backend - 新闻头条后端
 
 基于 FastAPI 构建的现代化新闻头条应用后端服务，提供用户认证、新闻浏览、收藏和历史记录等完整功能。
 
